@@ -1,0 +1,3 @@
+html/config-private.php
+mysql_data/*
+.env

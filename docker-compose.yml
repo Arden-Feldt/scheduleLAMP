@@ -1,0 +1,25 @@
+services:
+  web:
+    image: php:8.4-apache    
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql-db
+    volumes:
+      - ./html:/var/www/html 
+    command: ["/bin/sh", "-c", "docker-php-ext-install mysqli && apache2-foreground"]
+  mysql-db:
+    image: mysql:8.4.4 
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: schedule_admin 
+    volumes:
+      - ./mysql_data:/var/lib/mysql 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql-db
+    environment:
+      PMA_HOST: mysql-db
